@@ -1,0 +1,35 @@
+---
+version: "2"
+
+services:
+
+    mysqld-ojs:
+        image: mysql
+        container_name: mysqld-wp
+        environment:
+            - MYSQL_USER=ojs
+            - MYSQL_PASSWORD=ojs
+            - MYSQL_DATABASE=ojs
+            - MYSQL_RANDOM_ROOT_PASSWORD=""
+    nginx-ojs:
+        image: nginx:alpine
+        links:
+            - ojs
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+            - www-volume:/var/www:ro
+        ports:
+            - "8080:80"
+    ojs:
+        build: ./ojs
+        container_name: ojs
+        environment:
+            - OJS_DB_HOST=mysqld-ojs
+        links:
+            - mysqld-ojs
+        volumes:
+            - www-volume:/var/www
+volumes:
+    www-volume:
+
+
