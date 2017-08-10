@@ -5,7 +5,7 @@ services:
 
     mysqld-ojs:
         image: mysql
-        container_name: mysqld-wp
+        container_name: mysqld-ojs
         environment:
             - MYSQL_USER=ojs
             - MYSQL_PASSWORD=ojs
